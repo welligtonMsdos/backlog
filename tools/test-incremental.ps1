@@ -24,7 +24,7 @@ try
 {
     $arguments = @('compose', '--profile', 'test', 'run', '--rm', '--volume', "${overlay}:/overlay:ro", '--entrypoint', '/bin/sh', 'tests', '-c')
 
-    $command = 'cp -a /overlay/. /workspace/ && dotnet test Backlog.sln -c Release --no-restore --logger trx --results-directory /results'
+    $command = 'cp -a /overlay/. /workspace/ && dotnet test tests/Backlog.IntegrationTests -c Release --no-restore --logger trx --results-directory /results'
 
     if ($Filter)
     {
