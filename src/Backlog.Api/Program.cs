@@ -130,6 +130,8 @@ app.MapUserEndpoints();
 
 app.MapTaskEndpoints();
 
+app.MapTransitionEndpoints();
+
 app.Run();
 
 public partial class Program

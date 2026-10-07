@@ -30,3 +30,4 @@ Cada etapa usa o ID de `tasks.md` no tÃ­tulo do commit. Consulte `git log --onel
 | T-24 | gerenciar observações e anexos com acesso e limites | Build aprovado; verificações de comportamento nas T-30 a T-35 |
 | T-25 | validar tarefas, transições e uploads | Build aprovado; integração nas T-34 e T-35 |
 | T-26 | expor criação, lista e detalhes de tarefas | Build aprovado; integração nas T-34 e T-35 |
+| T-27 | expor ações de transição autenticadas | Build aprovado; integração nas T-34 e T-35 |
