@@ -9,3 +9,4 @@ Cada etapa usa o ID de `tasks.md` no título do commit. Consulte `git log --onel
 | T-03 | Dockerfile multi-stage, exemplo de configuracao e geracao segura de segredos | Segredos aleatorios locais; build Docker na T-38 |
 | T-04 | Compose com API, PostgreSQL, testes e rede interna | Compose config; healthchecks na T-38 |
 | T-05 | PostgreSQL 17 em tmpfs limitado e sem porta no host | PostgreSQL iniciado; volatilidade na T-38 |
+| T-06 | modela usuarios sessoes tarefas e historico no dominio | Build dominio; testes T-30 |
