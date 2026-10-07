@@ -1,0 +1,12 @@
+# MVP 2: ativar explicitamente, sem compose.override.yaml.
+# docker compose -f compose.yaml -f compose.persistent.yaml up -d --build
+services:
+  postgres:
+    environment:
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    mem_limit: 512m
+
+volumes:
+  postgres_data:
