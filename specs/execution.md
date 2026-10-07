@@ -34,3 +34,4 @@ Cada etapa usa o ID de `tasks.md` no tÃ­tulo do commit. Consulte `git log --onel
 | T-28 | expor observações e upload e download autorizado | Build aprovado; integração nas T-34 e T-35 |
 | T-29 | OpenAPI Bearer e Scalar local configurável, fontes e agente externos desabilitados | Build aprovado; recursos locais verificados na integração |
 | T-30 | Matriz completa: 25 pares de status × 5 identidades, ciclos, datas, estado terminal e versão | Testes unitários aprovados |
+| T-31 | Testes de serviços com repositórios simulados, senha, JWT, validators e arquivos | Testes unitários aprovados |
