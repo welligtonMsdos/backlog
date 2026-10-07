@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net10.0": {
+      "backlog.api": {
+        "type": "Project",
+        "dependencies": {
+          "Backlog.Application": "[1.0.0, )",
+          "Backlog.Infrastructure": "[1.0.0, )"
+        }
+      },
+      "backlog.application": {
+        "type": "Project",
+        "dependencies": {
+          "Backlog.Domain": "[1.0.0, )"
+        }
+      },
+      "backlog.domain": {
+        "type": "Project"
+      },
+      "backlog.infrastructure": {
+        "type": "Project",
+        "dependencies": {
+          "Backlog.Application": "[1.0.0, )"
+        }
+      }
+    }
+  }
+}

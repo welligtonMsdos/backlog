@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../Backlog.Application/Backlog.Application.csproj" />
+  </ItemGroup>
+</Project>

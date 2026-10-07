@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="../Backlog.Application/Backlog.Application.csproj" />
+    <ProjectReference Include="../Backlog.Infrastructure/Backlog.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>
