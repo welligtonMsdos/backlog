@@ -18,14 +18,11 @@ try
 
     $packages = @{}
 
-    Get-ChildItem src,tests -Filter packages.lock.json -Recurse | ForEach-Object
-    {
+    Get-ChildItem src,tests -Filter packages.lock.json -Recurse | ForEach-Object {
         $lock = Get-Content $_.FullName -Raw | ConvertFrom-Json
 
-        $lock.dependencies.PSObject.Properties | ForEach-Object
-        {
-            $_.Value.PSObject.Properties | ForEach-Object
-            {
+        $lock.dependencies.PSObject.Properties | ForEach-Object {
+            $_.Value.PSObject.Properties | ForEach-Object {
                 if ($_.Value.type -ne 'Project')
                 {
                     $packages[($_.Name.ToLowerInvariant() + '/' + $_.Value.resolved)] = $true

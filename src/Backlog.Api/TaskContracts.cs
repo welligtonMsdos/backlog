@@ -8,7 +8,7 @@ public class MaterialsRequest
 {
     public string? Note { get; set; }
 
-    public List<IFormFile> Files { get; set; } = [];
+    public IFormFileCollection Files { get; set; } = new FormFileCollection();
 }
 
 public sealed class CreateTaskRequest : MaterialsRequest

@@ -115,10 +115,30 @@ public sealed class TaskRepository(BacklogDbContext db) : ITaskRepository
 
     public async Task SaveAsync(TaskItem task, CancellationToken ct)
     {
-        var pending = task.Stages.Where(x => db.Entry(x).State == EntityState.Detached).ToArray();
+        StageEntry[] pending;
 
-        // Fecha a etapa existente antes de inserir outra: o indice parcial
-        // garante uma unica etapa aberta, e a transacao cobre ambos os flushes.
+        var detection = db.ChangeTracker.AutoDetectChangesEnabled;
+
+        db.ChangeTracker.AutoDetectChangesEnabled = false;
+
+        try
+        {
+            pending = task.Stages.Where(stage => db.Entry(stage).State == EntityState.Detached).ToArray();
+
+            foreach (var stage in task.Stages.Except(pending))
+            {
+                db.Notes.AddRange(stage.Notes.Where(note => db.Entry(note).State == EntityState.Detached).ToArray());
+
+                db.Attachments.AddRange(stage.Attachments.Where(file => db.Entry(file).State == EntityState.Detached).ToArray());
+            }
+        }
+        finally
+        {
+            db.ChangeTracker.AutoDetectChangesEnabled = detection;
+        }
+
+        // Fecha a etapa existente antes de inserir outra; ambos os flushes
+        // e a inserção explícita dos materiais ficam na mesma transação.
         await db.SaveChangesAsync(ct);
 
         if (pending.Length > 0)
