@@ -13,3 +13,4 @@ Cada etapa usa o ID de `tasks.md` no título do commit. Consulte `git log --onel
 | T-07 | aplica matriz de transicoes autoria e versionamento | Build dominio; testes T-30 |
 | T-08 | Interfaces de repositorios, transacoes, relogio, hash e tokens | Build Application sem referencias de infraestrutura |
 | T-09 | Modelo PostgreSQL com seis tabelas, indices, restricoes e migration inicial | Migration gerada e compilada; integridade verificada T-35 |
+| T-10 | Repositorios EF com filtros, bloqueio e transacoes atomicas | Build infraestrutura; testes PostgreSQL T-34/T-35 |
