@@ -40,6 +40,13 @@ builder.Services.AddScoped<FluentValidation.IValidator<NoteRequest>, NoteValidat
 
 builder.Services.AddScoped<FluentValidation.IValidator<TaskQuery>, TaskQueryValidator>();
 
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer<ApiDocumentTransformer>();
+
+    options.AddOperationTransformer<ApiOperationTransformer>();
+});
+
 builder.Services.AddProblemDetails();
 
 builder.Services.AddExceptionHandler<ApiExceptionHandler>();
@@ -133,6 +140,8 @@ app.MapTaskEndpoints();
 app.MapTransitionEndpoints();
 
 app.MapMaterialsEndpoints();
+
+app.MapDocumentation();
 
 app.Run();
 

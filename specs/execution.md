@@ -32,3 +32,4 @@ Cada etapa usa o ID de `tasks.md` no tÃ­tulo do commit. Consulte `git log --onel
 | T-26 | expor criação, lista e detalhes de tarefas | Build aprovado; integração nas T-34 e T-35 |
 | T-27 | expor ações de transição autenticadas | Build aprovado; integração nas T-34 e T-35 |
 | T-28 | expor observações e upload e download autorizado | Build aprovado; integração nas T-34 e T-35 |
+| T-29 | OpenAPI Bearer e Scalar local configurável, fontes e agente externos desabilitados | Build aprovado; recursos locais verificados na integração |
