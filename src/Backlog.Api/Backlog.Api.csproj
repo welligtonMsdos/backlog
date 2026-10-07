@@ -2,5 +2,8 @@
   <ItemGroup>
     <ProjectReference Include="../Backlog.Application/Backlog.Application.csproj" />
     <ProjectReference Include="../Backlog.Infrastructure/Backlog.Infrastructure.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Scalar.AspNetCore" />
+    <PackageReference Include="FluentValidation" />
   </ItemGroup>
 </Project>
