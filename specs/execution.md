@@ -23,3 +23,4 @@ Cada etapa usa o ID de `tasks.md` no tÃ­tulo do commit. Consulte `git log --onel
 | T-17 | Rotas de autenticação e usuários sem exposição de hash | Build aprovado |
 | T-18 | criar tarefas com materiais iniciais atomicamente | Build aprovado; verificações de comportamento nas T-30 a T-35 |
 | T-19 | consultar tarefas por perfil e retornar responsáveis | Build aprovado; verificações de comportamento nas T-30 a T-35 |
+| T-20 | iniciar desenvolvimento com versão e bloqueio transacional | Build aprovado; verificações de comportamento nas T-30 a T-35 |
