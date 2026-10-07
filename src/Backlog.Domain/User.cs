@@ -4,7 +4,7 @@ public sealed class User
 {
     private User() { }
 
-    public User(string name, string email, string passwordHash, string role, DateTimeOffset now)
+    public User(string name, string email, string passwordHash, string role, DateTimeOffset now, bool isActive = true)
     {
         if (string.IsNullOrWhiteSpace(name) || !Roles.All.Contains(role))
         {
@@ -21,7 +21,7 @@ public sealed class User
 
         Role = role;
 
-        IsActive = true;
+        IsActive = isActive;
 
         CreatedAt = now;
 

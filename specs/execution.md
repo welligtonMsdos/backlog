@@ -17,3 +17,4 @@ Cada etapa usa o ID de `tasks.md` no título do commit. Consulte `git log --onel
 | T-11 | implementa hash de senhas JWT e relogio | Build; testes de seguranca T-31/T-33 |
 | T-12 | cria gestor inicial idempotente apos migrations | Build; testes de seguranca T-31/T-33 |
 | T-13 | adiciona login logout e validacao de sessao ativa | Build; testes de seguranca T-31/T-33 |
+| T-14 | restringe cadastro de usuarios ao gestor | Build; testes de seguranca T-31/T-33 |
