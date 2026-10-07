@@ -26,3 +26,4 @@ Cada etapa usa o ID de `tasks.md` no tÃ­tulo do commit. Consulte `git log --onel
 | T-20 | iniciar desenvolvimento com versão e bloqueio transacional | Build aprovado; verificações de comportamento nas T-30 a T-35 |
 | T-21 | enviar desenvolvimento para homologação | Build aprovado; verificações de comportamento nas T-30 a T-35 |
 | T-22 | homologar ou devolver preservando passagens | Build aprovado; verificações de comportamento nas T-30 a T-35 |
+| T-23 | finalizar implantação com passagem terminal | Build aprovado; verificações de comportamento nas T-30 a T-35 |
