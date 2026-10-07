@@ -14,6 +14,32 @@ builder.Services.AddScoped<FluentValidation.IValidator<LoginRequest>, LoginValid
 
 builder.Services.AddScoped<FluentValidation.IValidator<RegisterUserRequest>, RegisterUserValidator>();
 
+builder.Services.AddScoped<CreateTaskService>();
+
+builder.Services.AddScoped<TaskReadService>();
+
+builder.Services.AddScoped<TransitionExecutor>();
+
+builder.Services.AddScoped<StartDevelopmentService>();
+
+builder.Services.AddScoped<SendToReviewService>();
+
+builder.Services.AddScoped<ReviewTaskService>();
+
+builder.Services.AddScoped<FinishTaskService>();
+
+builder.Services.AddScoped<StageMaterialsService>();
+
+builder.Services.AddScoped<FluentValidation.IValidator<CreateTaskRequest>, CreateTaskValidator>();
+
+builder.Services.AddScoped<FluentValidation.IValidator<TransitionRequest>, TransitionValidator>();
+
+builder.Services.AddScoped<FluentValidation.IValidator<ReviewRequest>, ReviewValidator>();
+
+builder.Services.AddScoped<FluentValidation.IValidator<NoteRequest>, NoteValidator>();
+
+builder.Services.AddScoped<FluentValidation.IValidator<TaskQuery>, TaskQueryValidator>();
+
 builder.Services.AddProblemDetails();
 
 builder.Services.AddExceptionHandler<ApiExceptionHandler>();
@@ -101,6 +127,8 @@ app.MapGet("/health/ready", async (IUserRepository users, CancellationToken ct) 
 }).AllowAnonymous();
 
 app.MapUserEndpoints();
+
+app.MapTaskEndpoints();
 
 app.Run();
 
