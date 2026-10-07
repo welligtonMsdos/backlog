@@ -4,7 +4,8 @@ $repoRoot = Split-Path $PSScriptRoot -Parent
 
 Push-Location $repoRoot
 
-try {
+try
+{
     dotnet restore Backlog.sln --locked-mode
 
     if ($LASTEXITCODE -ne 0) { throw 'Falha no restore' }
@@ -17,17 +18,24 @@ try {
 
     $packages = @{}
 
-    Get-ChildItem src,tests -Filter packages.lock.json -Recurse | ForEach-Object {
+    Get-ChildItem src,tests -Filter packages.lock.json -Recurse | ForEach-Object
+    {
         $lock = Get-Content $_.FullName -Raw | ConvertFrom-Json
 
-        $lock.dependencies.PSObject.Properties | ForEach-Object {
-            $_.Value.PSObject.Properties | ForEach-Object {
-                $packages[($_.Name.ToLowerInvariant() + '/' + $_.Value.resolved)] = $true
+        $lock.dependencies.PSObject.Properties | ForEach-Object
+        {
+            $_.Value.PSObject.Properties | ForEach-Object
+            {
+                if ($_.Value.type -ne 'Project')
+                {
+                    $packages[($_.Name.ToLowerInvariant() + '/' + $_.Value.resolved)] = $true
+                }
             }
         }
     }
 
-    foreach ($package in $packages.Keys) {
+    foreach ($package in $packages.Keys)
+    {
         $parts = $package.Split('/')
 
         $source = Join-Path $cache "$package/$($parts[0]).$($parts[1]).nupkg"
@@ -35,20 +43,21 @@ try {
         Copy-Item -LiteralPath $source -Destination $feed
     }
 
-    docker pull mcr.microsoft.com/dotnet/sdk:10.0
+    foreach ($image in @('mcr.microsoft.com/dotnet/sdk:10.0', 'mcr.microsoft.com/dotnet/aspnet:10.0', 'postgres:17-alpine'))
+    {
+        docker image inspect $image --format '{{.Id}}' 2>$null | Out-Null
 
-    if ($LASTEXITCODE -ne 0) { throw 'Imagem SDK indisponivel' }
+        if ($LASTEXITCODE -ne 0)
+        {
+            docker pull $image
 
-    docker pull mcr.microsoft.com/dotnet/aspnet:10.0
-
-    if ($LASTEXITCODE -ne 0) { throw 'Imagem runtime indisponivel' }
-
-    docker pull postgres:17-alpine
-
-    if ($LASTEXITCODE -ne 0) { throw 'Imagem PostgreSQL indisponivel' }
+            if ($LASTEXITCODE -ne 0) { throw 'Imagem indisponivel' }
+        }
+    }
 
     Write-Output 'Cache local preparado. Build: docker compose build --no-cache (rede do build desabilitada no Compose).'
 }
-finally {
+finally
+{
     Pop-Location
 }
