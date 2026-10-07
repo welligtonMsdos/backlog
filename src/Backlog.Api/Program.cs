@@ -10,6 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
+builder.Services.AddScoped<FluentValidation.IValidator<LoginRequest>, LoginValidator>();
+
+builder.Services.AddScoped<FluentValidation.IValidator<RegisterUserRequest>, RegisterUserValidator>();
+
 builder.Services.AddProblemDetails();
 
 builder.Services.AddExceptionHandler<ApiExceptionHandler>();
@@ -95,6 +99,8 @@ app.MapGet("/health/ready", async (IUserRepository users, CancellationToken ct) 
 
     return Results.Ok(new { status = "ready" });
 }).AllowAnonymous();
+
+app.MapUserEndpoints();
 
 app.Run();
 

@@ -20,3 +20,4 @@ Cada etapa usa o ID de `tasks.md` no tÃ­tulo do commit. Consulte `git log --onel
 | T-14 | restringe cadastro de usuarios ao gestor | Build; testes de seguranca T-31/T-33 |
 | T-15 | Minimal API, DI, JWT com sessão viva, Problem Details e healthchecks | Build aprovado; integração nas T-32 a T-35 |
 | T-16 | DTOs de usuários e validação assíncrona FluentValidation | Build aprovado |
+| T-17 | Rotas de autenticação e usuários sem exposição de hash | Build aprovado |
