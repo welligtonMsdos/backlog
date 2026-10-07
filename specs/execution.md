@@ -36,3 +36,4 @@ Cada etapa usa o ID de `tasks.md` no tÃ­tulo do commit. Consulte `git log --onel
 | T-30 | Matriz completa: 25 pares de status × 5 identidades, ciclos, datas, estado terminal e versão | Testes unitários aprovados |
 | T-31 | Testes de serviços com repositórios simulados, senha, JWT, validators e arquivos | Testes unitários aprovados |
 | T-32 | HTTP WebApplicationFactory e PostgreSQL real, banco isolado; feed ignora projetos e reutiliza imagens locais | Build Docker sem rede e testes executados no Compose |
+| T-33 | Integração de cadastro, JWT, sessão, bootstrap serializado, configuração ausente e recuperação de schema | Testes HTTP/PostgreSQL aprovados em Docker |
