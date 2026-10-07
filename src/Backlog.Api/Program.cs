@@ -132,6 +132,8 @@ app.MapTaskEndpoints();
 
 app.MapTransitionEndpoints();
 
+app.MapMaterialsEndpoints();
+
 app.Run();
 
 public partial class Program
