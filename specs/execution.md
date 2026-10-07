@@ -22,3 +22,4 @@ Cada etapa usa o ID de `tasks.md` no tÃ­tulo do commit. Consulte `git log --onel
 | T-16 | DTOs de usuários e validação assíncrona FluentValidation | Build aprovado |
 | T-17 | Rotas de autenticação e usuários sem exposição de hash | Build aprovado |
 | T-18 | criar tarefas com materiais iniciais atomicamente | Build aprovado; verificações de comportamento nas T-30 a T-35 |
+| T-19 | consultar tarefas por perfil e retornar responsáveis | Build aprovado; verificações de comportamento nas T-30 a T-35 |
