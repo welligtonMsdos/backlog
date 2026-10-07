@@ -14,3 +14,4 @@ Cada etapa usa o ID de `tasks.md` no título do commit. Consulte `git log --onel
 | T-08 | Interfaces de repositorios, transacoes, relogio, hash e tokens | Build Application sem referencias de infraestrutura |
 | T-09 | Modelo PostgreSQL com seis tabelas, indices, restricoes e migration inicial | Migration gerada e compilada; integridade verificada T-35 |
 | T-10 | Repositorios EF com filtros, bloqueio e transacoes atomicas | Build infraestrutura; testes PostgreSQL T-34/T-35 |
+| T-11 | implementa hash de senhas JWT e relogio | Build; testes de seguranca T-31/T-33 |
