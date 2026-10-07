@@ -10,3 +10,4 @@ Cada etapa usa o ID de `tasks.md` no título do commit. Consulte `git log --onel
 | T-04 | Compose com API, PostgreSQL, testes e rede interna | Compose config; healthchecks na T-38 |
 | T-05 | PostgreSQL 17 em tmpfs limitado e sem porta no host | PostgreSQL iniciado; volatilidade na T-38 |
 | T-06 | modela usuarios sessoes tarefas e historico no dominio | Build dominio; testes T-30 |
+| T-07 | aplica matriz de transicoes autoria e versionamento | Build dominio; testes T-30 |
