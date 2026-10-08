@@ -1,43 +1,56 @@
 # Execu√ß√£o incremental
 
-Cada etapa usa o ID de `tasks.md` no t√≠tulo do commit. Consulte `git log --oneline --grep='T-'` para rastrear o hist√≥rico. Valida√ß√µes amplas ser√£o registradas nas etapas de testes e na revis√£o T-38.
+Cada tarefa de `specs/tasks.md` foi realizada em um commit cujo t√≠tulo come√ßa pelo respectivo ID. Confira com `git log --oneline --grep='T-'`.
 
 | ID | Entrega | Verifica√ß√£o |
 | --- | --- | --- |
-| T-01 | Solu√ß√£o .NET 10 com seis projetos e depend√™ncias por camada | Build da solu√ß√£o |
-| T-02 | Dependencias fixadas, locks e preparacao do cache local offline | Restore/build; build Docker offline na T-38 |
-| T-03 | Dockerfile multi-stage, exemplo de configuracao e geracao segura de segredos | Segredos aleatorios locais; build Docker na T-38 |
-| T-04 | Compose com API, PostgreSQL, testes e rede interna | Compose config; healthchecks na T-38 |
-| T-05 | PostgreSQL 17 em tmpfs limitado e sem porta no host | PostgreSQL iniciado; volatilidade na T-38 |
-| T-06 | modela usuarios sessoes tarefas e historico no dominio | Build dominio; testes T-30 |
-| T-07 | aplica matriz de transicoes autoria e versionamento | Build dominio; testes T-30 |
-| T-08 | Interfaces de repositorios, transacoes, relogio, hash e tokens | Build Application sem referencias de infraestrutura |
-| T-09 | Modelo PostgreSQL com seis tabelas, indices, restricoes e migration inicial | Migration gerada e compilada; integridade verificada T-35 |
-| T-10 | Repositorios EF com filtros, bloqueio e transacoes atomicas | Build infraestrutura; testes PostgreSQL T-34/T-35 |
-| T-11 | implementa hash de senhas JWT e relogio | Build; testes de seguranca T-31/T-33 |
-| T-12 | cria gestor inicial idempotente apos migrations | Build; testes de seguranca T-31/T-33 |
-| T-13 | adiciona login logout e validacao de sessao ativa | Build; testes de seguranca T-31/T-33 |
-| T-14 | restringe cadastro de usuarios ao gestor | Build; testes de seguranca T-31/T-33 |
-| T-15 | Minimal API, DI, JWT com sess„o viva, Problem Details e healthchecks | Build aprovado; integraÁ„o nas T-32 a T-35 |
-| T-16 | DTOs de usu·rios e validaÁ„o assÌncrona FluentValidation | Build aprovado |
-| T-17 | Rotas de autenticaÁ„o e usu·rios sem exposiÁ„o de hash | Build aprovado |
-| T-18 | criar tarefas com materiais iniciais atomicamente | Build aprovado; verificaÁıes de comportamento nas T-30 a T-35 |
-| T-19 | consultar tarefas por perfil e retornar respons·veis | Build aprovado; verificaÁıes de comportamento nas T-30 a T-35 |
-| T-20 | iniciar desenvolvimento com vers„o e bloqueio transacional | Build aprovado; verificaÁıes de comportamento nas T-30 a T-35 |
-| T-21 | enviar desenvolvimento para homologaÁ„o | Build aprovado; verificaÁıes de comportamento nas T-30 a T-35 |
-| T-22 | homologar ou devolver preservando passagens | Build aprovado; verificaÁıes de comportamento nas T-30 a T-35 |
-| T-23 | finalizar implantaÁ„o com passagem terminal | Build aprovado; verificaÁıes de comportamento nas T-30 a T-35 |
-| T-24 | gerenciar observaÁıes e anexos com acesso e limites | Build aprovado; verificaÁıes de comportamento nas T-30 a T-35 |
-| T-25 | validar tarefas, transiÁıes e uploads | Build aprovado; integraÁ„o nas T-34 e T-35 |
-| T-26 | expor criaÁ„o, lista e detalhes de tarefas | Build aprovado; integraÁ„o nas T-34 e T-35 |
-| T-27 | expor aÁıes de transiÁ„o autenticadas | Build aprovado; integraÁ„o nas T-34 e T-35 |
-| T-28 | expor observaÁıes e upload e download autorizado | Build aprovado; integraÁ„o nas T-34 e T-35 |
-| T-29 | OpenAPI Bearer e Scalar local configur·vel, fontes e agente externos desabilitados | Build aprovado; recursos locais verificados na integraÁ„o |
-| T-30 | Matriz completa: 25 pares de status ◊ 5 identidades, ciclos, datas, estado terminal e vers„o | Testes unit·rios aprovados |
-| T-31 | Testes de serviÁos com repositÛrios simulados, senha, JWT, validators e arquivos | Testes unit·rios aprovados |
-| T-32 | HTTP WebApplicationFactory e PostgreSQL real, banco isolado; feed ignora projetos e reutiliza imagens locais | Build Docker sem rede e testes executados no Compose |
-| T-33 | IntegraÁ„o de cadastro, JWT, sess„o, bootstrap serializado, configuraÁ„o ausente e recuperaÁ„o de schema | Testes HTTP/PostgreSQL aprovados em Docker |
-| T-34 | Escopo, notas, limites e download HTTP; IFormFileCollection compatÌvel com Minimal API e inserÁ„o explÌcita de materiais | Testes HTTP/PostgreSQL aprovados em Docker |
-| T-35 | Fluxo com devoluÁ„o, vÌnculos, concorrÍncia e rollback aprovados; Scalar confirma fontes/agente desabilitados e recursos relativos locais | Cinco cen·rios HTTP/PostgreSQL aprovados em Docker |
-| T-36 | Compose persistente opcional e verificaÁ„o isolada com migrations e restart | RetenÁ„o dos dados apÛs restart PostgreSQL confirmada em Docker |
-| T-37 | README com operaÁ„o, credenciais locais, bootstrap, contratos, testes, volatilidade, recuperaÁ„o e backup/migraÁ„o MVP 2 | Comandos Docker de build/testes e persistÍncia j· executados |
+| T-01 | Solu√ß√£o .NET 10 e projetos com responsabilidades separadas | Solu√ß√£o compilada |
+| T-02 | Depend√™ncias fixadas, arquivos de lock e cache local | Restore e build offline |
+| T-03 | Dockerfile multi-stage e configura√ß√£o inicial de segredos locais | Build sem rede externa |
+| T-04 | Compose para API, PostgreSQL e testes | `docker compose config --quiet` |
+| T-05 | PostgreSQL em `tmpfs`, limitado e sem porta publicada | Rein√≠cio descartou o banco conforme especificado |
+| T-06 | Entidades de usu√°rio, sess√£o, tarefa e passagem | Build e testes de dom√≠nio |
+| T-07 | Regras de transi√ß√£o, autoria e controle de vers√£o | Matriz de transi√ß√µes unit√°ria |
+| T-08 | Interfaces de reposit√≥rios, rel√≥gio, senha, tokens e transa√ß√£o | Refer√™ncias entre projetos revisadas |
+| T-09 | Modelo PostgreSQL, restri√ß√µes e migration inicial | Migration aplicada na integra√ß√£o |
+| T-10 | Reposit√≥rios EF Core e opera√ß√µes transacionais | Integra√ß√µes com PostgreSQL |
+| T-11 | Hash de senha, JWT e rel√≥gio | Testes unit√°rios e HTTP |
+| T-12 | Cadastro inicial idempotente do gestor | Teste de inicializa√ß√£o concorrente |
+| T-13 | Login, logout e sess√£o revog√°vel | Testes HTTP de autentica√ß√£o |
+| T-14 | Cadastro de usu√°rios exclusivo do gestor | Testes HTTP de autoriza√ß√£o |
+| T-15 | Minimal API, DI, autoriza√ß√£o e Problem Details | Build e testes HTTP |
+| T-16 | DTOs e valida√ß√£o FluentValidation | Testes de valida√ß√£o |
+| T-17 | Rotas de autentica√ß√£o e administra√ß√£o de usu√°rios | Testes HTTP de autentica√ß√£o e perfis |
+| T-18 | Cria√ß√£o de tarefa e materiais iniciais at√¥micos | Testes de fluxo e rollback |
+| T-19 | Listagem e detalhe com visibilidade por perfil | Testes HTTP de escopo |
+| T-20 | In√≠cio do desenvolvimento com atribui√ß√£o e vers√£o | Testes HTTP e concorr√™ncia |
+| T-21 | Envio para homologa√ß√£o | Testes HTTP do fluxo |
+| T-22 | Aprova√ß√£o para implanta√ß√£o ou devolu√ß√£o ao desenvolvimento | Testes HTTP do fluxo e ciclos repetidos |
+| T-23 | Conclus√£o da implanta√ß√£o e status terminal | Testes HTTP do fluxo completo |
+| T-24 | Observa√ß√µes, anexos e valida√ß√£o de acesso | Testes HTTP de notas e arquivos |
+| T-25 | DTOs e validators de tarefa, transi√ß√£o e arquivo | Testes unit√°rios e HTTP |
+| T-26 | Rotas de cria√ß√£o, listagem e detalhe de tarefas | Testes HTTP/PostgreSQL |
+| T-27 | Rotas de transi√ß√£o autenticadas | Testes HTTP/PostgreSQL |
+| T-28 | Rotas de observa√ß√£o, upload e download | Testes HTTP de acesso e limites |
+| T-29 | OpenAPI com Bearer e Scalar com recursos locais | Testes HTTP da especifica√ß√£o, schemas e recursos |
+| T-30 | Testes de dom√≠nio: status, pap√©is, datas, hist√≥rico e concorr√™ncia | 134 testes unit√°rios aprovados |
+| T-31 | Testes unit√°rios de servi√ßos, JWT, senhas e validators | 134 testes unit√°rios aprovados |
+| T-32 | Su√≠te de integra√ß√£o com PostgreSQL em Docker | Build Docker sem rede; su√≠te executada no Compose |
+| T-33 | Integra√ß√£o de autentica√ß√£o, bootstrap e sess√µes | 19 testes de integra√ß√£o aprovados na su√≠te final |
+| T-34 | Integra√ß√£o de escopo, tarefas, notas e anexos | 19 testes de integra√ß√£o aprovados na su√≠te final |
+| T-35 | Fluxos completos, concorr√™ncia, rollback e Scalar | 19 testes de integra√ß√£o aprovados na su√≠te final |
+| T-36 | Configura√ß√£o persistente opcional para o MVP 2 | Rein√≠cio do PostgreSQL preservou os dados de prova |
+| T-37 | README de opera√ß√£o, segredos, testes e migra√ß√£o | Comandos e instru√ß√µes conferidos com Compose |
+| T-38 | Revis√£o final de arquitetura, formata√ß√£o e crit√©rios de aceite | Build Release offline, testes, Scalar, readiness e ciclo de perda/recupera√ß√£o aprovados |
+
+## Valida√ß√£o final da T-38
+
+- `dotnet build Backlog.sln --no-restore --nologo`: aprovado, zero avisos e zero erros.
+- `dotnet format whitespace Backlog.sln --verify-no-changes --no-restore`: aprovado.
+- `docker compose --profile test build --no-cache`: imagens de API e testes constru√≠das usando cache local e sem rede durante o build.
+- `docker compose --profile test run --rm tests`: 134 testes unit√°rios e 19 testes de integra√ß√£o aprovados; nenhum ignorado.
+- `docker compose up -d --build --wait api`: API e PostgreSQL iniciados com health checks saud√°veis.
+- Scalar, OpenAPI Bearer, schemas de DTO/Problem Details e carregamento de recursos locais verificados pela integra√ß√£o; `/health/ready` e `/scalar` tamb√©m responderam `200` no host pela porta 8080.
+- `tools/verify-memory.ps1`: PostgreSQL em `tmpfs` perdeu o schema ap√≥s restart; readiness da API respondeu 503; restart da API reaplicou migrations e recriou o gestor inicial.
+- `tools/verify-persistence.ps1` (T-36): configura√ß√£o persistente opcional reteve os dados ap√≥s restart do PostgreSQL.
+- `.env` permanece ignorado pelo Git; o reposit√≥rio registra apenas `.env.example`.

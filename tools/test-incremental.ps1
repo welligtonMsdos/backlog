@@ -1,4 +1,4 @@
-param([string]$Filter = '')
+﻿param([string]$Filter = '')
 
 $ErrorActionPreference = 'Stop'
 

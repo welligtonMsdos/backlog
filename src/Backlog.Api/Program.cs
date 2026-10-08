@@ -47,6 +47,10 @@ builder.Services.AddOpenApi(options =>
     options.AddOperationTransformer<ApiOperationTransformer>();
 });
 
+builder.Services.AddScoped<ReadinessService>();
+
+builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options => options.MultipartBodyLengthLimit = 30 * 1024 * 1024);
+
 builder.Services.AddProblemDetails();
 
 builder.Services.AddExceptionHandler<ApiExceptionHandler>();
@@ -61,6 +65,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 {
     options.MapInboundClaims = false;
 
+    options.IncludeErrorDetails = false;
+
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
@@ -70,6 +76,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateAudience = true,
         ValidAudience = jwt.Audience,
         ValidateLifetime = true,
+        ValidAlgorithms = [SecurityAlgorithms.HmacSha256],
         ClockSkew = TimeSpan.Zero,
         RoleClaimType = "role"
     };
@@ -120,17 +127,25 @@ using (var scope = app.Services.CreateScope())
 
 app.UseExceptionHandler();
 
+app.UseStatusCodePages(async context =>
+{
+    await Results.Problem(statusCode: context.HttpContext.Response.StatusCode).ExecuteAsync(context.HttpContext);
+});
+
 app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapGet("/health/live", () => Results.Ok(new { status = "alive" })).AllowAnonymous();
 
-app.MapGet("/health/ready", async (IUserRepository users, CancellationToken ct) =>
+app.MapGet("/health/ready", async (ReadinessService readiness, CancellationToken ct) =>
 {
-    await users.AnyAsync(ct);
+    await readiness.CheckAsync(ct);
 
-    return Results.Ok(new { status = "ready" });
+    return Results.Ok(new
+    {
+        status = "ready"
+    });
 }).AllowAnonymous();
 
 app.MapUserEndpoints();

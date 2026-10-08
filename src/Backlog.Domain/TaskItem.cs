@@ -2,7 +2,9 @@ namespace Backlog.Domain;
 
 public sealed partial class TaskItem
 {
-    private TaskItem() { }
+    private TaskItem()
+    {
+    }
 
     public TaskItem(string title, string description, Guid creatorId, Guid targetDeveloperId, DateTimeOffset now)
     {
@@ -32,25 +34,46 @@ public sealed partial class TaskItem
         Stages.Add(new StageEntry(Id, 1, Status, creatorId, now));
     }
 
-    public Guid Id { get; private set; }
+    public Guid Id
+    {
+        get; private set;
+    }
 
     public string Title { get; private set; } = "";
 
     public string Description { get; private set; } = "";
 
-    public Guid CreatorId { get; private set; }
+    public Guid CreatorId
+    {
+        get; private set;
+    }
 
-    public Guid TargetDeveloperId { get; private set; }
+    public Guid TargetDeveloperId
+    {
+        get; private set;
+    }
 
-    public Guid? CurrentDeveloperId { get; private set; }
+    public Guid? CurrentDeveloperId
+    {
+        get; private set;
+    }
 
     public string Status { get; private set; } = "";
 
-    public long Version { get; private set; }
+    public long Version
+    {
+        get; private set;
+    }
 
-    public DateTimeOffset CreatedAt { get; private set; }
+    public DateTimeOffset CreatedAt
+    {
+        get; private set;
+    }
 
-    public DateTimeOffset UpdatedAt { get; private set; }
+    public DateTimeOffset UpdatedAt
+    {
+        get; private set;
+    }
 
     public List<StageEntry> Stages { get; } = [];
 

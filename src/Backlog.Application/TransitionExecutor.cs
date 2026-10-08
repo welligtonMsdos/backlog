@@ -8,7 +8,7 @@ public sealed class TransitionExecutor(ITaskRepository tasks, IUnitOfWork unit, 
     {
         return unit.ExecuteAsync(async () =>
         {
-            var task = await tasks.FindAsync(id, actor, true, ct)
+            var task = await tasks.FindAsync(id, TaskScope.For(actor), true, ct)
                 ?? throw new DomainException(ErrorKind.NotFound, "Tarefa não encontrada.");
 
             if (task.Status != source)

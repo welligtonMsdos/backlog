@@ -62,7 +62,11 @@ public sealed class WorkflowTests : ApiTestBase
 
         foreach (var action in new[] { "start", "send-to-review", "review", "finish" })
         {
-            using var form = TaskHelpers.Form(new() { ["ExpectedVersion"] = task.Version.ToString(), ["Decision"] = "send-to-deployment" });
+            using var form = TaskHelpers.Form(new()
+            {
+                ["ExpectedVersion"] = task.Version.ToString(),
+                ["Decision"] = "send-to-deployment"
+            });
 
             Assert.Equal(HttpStatusCode.Conflict, (await users.Owner.PostAsync($"/tasks/{task.Id}/{action}", form)).StatusCode);
         }
@@ -81,35 +85,58 @@ public sealed class WorkflowTests : ApiTestBase
 
         var task = await TaskHelpers.CreateAsync(users.Owner, users.DeveloperId);
 
-        using var wrongState = TaskHelpers.Form(new() { ["ExpectedVersion"] = "1" });
+        using var wrongState = TaskHelpers.Form(new()
+        {
+            ["ExpectedVersion"] = "1"
+        });
 
         Assert.Equal(HttpStatusCode.Conflict, (await users.Owner.PostAsync($"/tasks/{task.Id}/finish", wrongState)).StatusCode);
 
-        using var wrongRole = TaskHelpers.Form(new() { ["ExpectedVersion"] = "1" });
+        using var wrongRole = TaskHelpers.Form(new()
+        {
+            ["ExpectedVersion"] = "1"
+        });
 
         Assert.Equal(HttpStatusCode.Forbidden, (await users.Manager.PostAsync($"/tasks/{task.Id}/start", wrongRole)).StatusCode);
 
-        using var invisible = TaskHelpers.Form(new() { ["ExpectedVersion"] = "1" });
+        using var invisible = TaskHelpers.Form(new()
+        {
+            ["ExpectedVersion"] = "1"
+        });
 
         Assert.Equal(HttpStatusCode.NotFound, (await users.OtherDeveloper.PostAsync($"/tasks/{task.Id}/start", invisible)).StatusCode);
 
         task = await TaskHelpers.TransitionAsync(users.Developer, task, "start", withFile: false);
 
-        using var treasuryCannotSend = TaskHelpers.Form(new() { ["ExpectedVersion"] = task.Version.ToString() });
+        using var treasuryCannotSend = TaskHelpers.Form(new()
+        {
+            ["ExpectedVersion"] = task.Version.ToString()
+        });
 
         Assert.Equal(HttpStatusCode.Forbidden, (await users.Owner.PostAsync($"/tasks/{task.Id}/send-to-review", treasuryCannotSend)).StatusCode);
 
         task = await TaskHelpers.TransitionAsync(users.Developer, task, "send-to-review", withFile: false);
 
-        using var missingReason = TaskHelpers.Form(new() { ["ExpectedVersion"] = task.Version.ToString(), ["Decision"] = "return-to-development" });
+        using var missingReason = TaskHelpers.Form(new()
+        {
+            ["ExpectedVersion"] = task.Version.ToString(),
+            ["Decision"] = "return-to-development"
+        });
 
         Assert.Equal(HttpStatusCode.BadRequest, (await users.Owner.PostAsync($"/tasks/{task.Id}/review", missingReason)).StatusCode);
 
-        using var invalidDecision = TaskHelpers.Form(new() { ["ExpectedVersion"] = task.Version.ToString(), ["Decision"] = "finalizado" });
+        using var invalidDecision = TaskHelpers.Form(new()
+        {
+            ["ExpectedVersion"] = task.Version.ToString(),
+            ["Decision"] = "finalizado"
+        });
 
         Assert.Equal(HttpStatusCode.BadRequest, (await users.Owner.PostAsync($"/tasks/{task.Id}/review", invalidDecision)).StatusCode);
 
-        using var cannotSkip = TaskHelpers.Form(new() { ["ExpectedVersion"] = task.Version.ToString() });
+        using var cannotSkip = TaskHelpers.Form(new()
+        {
+            ["ExpectedVersion"] = task.Version.ToString()
+        });
 
         Assert.Equal(HttpStatusCode.Conflict, (await users.Owner.PostAsync($"/tasks/{task.Id}/finish", cannotSkip)).StatusCode);
 
@@ -123,9 +150,15 @@ public sealed class WorkflowTests : ApiTestBase
 
         var task = await TaskHelpers.CreateAsync(users.Owner, users.DeveloperId);
 
-        using var first = TaskHelpers.Form(new() { ["ExpectedVersion"] = "1" });
+        using var first = TaskHelpers.Form(new()
+        {
+            ["ExpectedVersion"] = "1"
+        });
 
-        using var second = TaskHelpers.Form(new() { ["ExpectedVersion"] = "1" });
+        using var second = TaskHelpers.Form(new()
+        {
+            ["ExpectedVersion"] = "1"
+        });
 
         var responses = await Task.WhenAll(users.Developer.PostAsync($"/tasks/{task.Id}/start", first), users.Developer.PostAsync($"/tasks/{task.Id}/start", second));
 
@@ -167,7 +200,11 @@ public sealed class WorkflowTests : ApiTestBase
 
         var task = await TaskHelpers.CreateAsync(users.Owner, users.DeveloperId);
 
-        using var invalid = TaskHelpers.Form(new() { ["ExpectedVersion"] = "1", ["Note"] = "não deve persistir" }, "bad.pdf", "application/pdf", "not a pdf"u8.ToArray());
+        using var invalid = TaskHelpers.Form(new()
+        {
+            ["ExpectedVersion"] = "1",
+            ["Note"] = "não deve persistir"
+        }, "bad.pdf", "application/pdf", "not a pdf"u8.ToArray());
 
         Assert.Equal(HttpStatusCode.BadRequest, (await users.Developer.PostAsync($"/tasks/{task.Id}/start", invalid)).StatusCode);
 
@@ -202,6 +239,14 @@ public sealed class WorkflowTests : ApiTestBase
         Assert.Contains("/tasks/{id}/review", json);
 
         Assert.Contains("413", json);
+
+        Assert.Contains("TaskResponse", json);
+
+        Assert.Contains("LoginResponse", json);
+
+        Assert.Contains("application/problem+json", json);
+
+        Assert.Equal("application/problem+json", (await Api.Client.GetAsync("/users/me")).Content.Headers.ContentType!.MediaType);
 
         var html = await Api.Client.GetStringAsync("/scalar");
 

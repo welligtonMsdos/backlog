@@ -71,7 +71,7 @@ public sealed class JwtTokenIssuer(JwtSettings settings) : ITokenIssuer
 
         var token = new JwtSecurityToken(settings.Issuer, settings.Audience, claims, now.UtcDateTime, expires.UtcDateTime, credentials);
 
-        return new SignedToken(new JwtSecurityTokenHandler().WriteToken(token), expires, id);
+        return new SignedToken(new JwtSecurityTokenHandler().WriteToken(token), expires, id, user.Role);
     }
 }
 

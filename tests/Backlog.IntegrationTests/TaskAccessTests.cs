@@ -72,7 +72,12 @@ public sealed class TaskAccessTests : ApiTestBase
 
         Assert.Equal(HttpStatusCode.Forbidden, (await users.Developer.GetAsync("/users/developers")).StatusCode);
 
-        using var forbidden = TaskHelpers.Form(new() { ["Title"] = "Título", ["Description"] = "Descrição", ["TargetDeveloperId"] = users.DeveloperId.ToString() });
+        using var forbidden = TaskHelpers.Form(new()
+        {
+            ["Title"] = "Título",
+            ["Description"] = "Descrição",
+            ["TargetDeveloperId"] = users.DeveloperId.ToString()
+        });
 
         Assert.Equal(HttpStatusCode.Forbidden, (await users.Manager.PostAsync("/tasks", forbidden)).StatusCode);
     }
@@ -101,7 +106,10 @@ public sealed class TaskAccessTests : ApiTestBase
 
         Assert.Equal(2, task.Stages[0].Notes.Count);
 
-        using var upload = TaskHelpers.Form(new() { ["ExpectedVersion"] = task.Version.ToString() }, "upload.pdf", "application/pdf", "%PDF-1.7 arquivo"u8.ToArray());
+        using var upload = TaskHelpers.Form(new()
+        {
+            ["ExpectedVersion"] = task.Version.ToString()
+        }, "upload.pdf", "application/pdf", "%PDF-1.7 arquivo"u8.ToArray());
 
         var uploaded = await users.Owner.PostAsync($"/tasks/{task.Id}/stages/{stageId}/attachments", upload);
 
@@ -131,15 +139,24 @@ public sealed class TaskAccessTests : ApiTestBase
 
         var route = $"/tasks/{task.Id}/stages/{task.Stages[0].Id}/attachments";
 
-        using var large = TaskHelpers.Form(new() { ["ExpectedVersion"] = task.Version.ToString() }, "large.txt", content: new byte[MaterialWriter.MaxFileBytes + 1]);
+        using var large = TaskHelpers.Form(new()
+        {
+            ["ExpectedVersion"] = task.Version.ToString()
+        }, "large.txt", content: new byte[MaterialWriter.MaxFileBytes + 1]);
 
         Assert.Equal(HttpStatusCode.RequestEntityTooLarge, (await users.Owner.PostAsync(route, large)).StatusCode);
 
-        using var falsePdf = TaskHelpers.Form(new() { ["ExpectedVersion"] = task.Version.ToString() }, "fake.pdf", "application/pdf");
+        using var falsePdf = TaskHelpers.Form(new()
+        {
+            ["ExpectedVersion"] = task.Version.ToString()
+        }, "fake.pdf", "application/pdf");
 
         Assert.Equal(HttpStatusCode.BadRequest, (await users.Owner.PostAsync(route, falsePdf)).StatusCode);
 
-        using var forbidden = TaskHelpers.Form(new() { ["ExpectedVersion"] = task.Version.ToString() }, "file.exe", "application/octet-stream");
+        using var forbidden = TaskHelpers.Form(new()
+        {
+            ["ExpectedVersion"] = task.Version.ToString()
+        }, "file.exe", "application/octet-stream");
 
         Assert.Equal(HttpStatusCode.BadRequest, (await users.Owner.PostAsync(route, forbidden)).StatusCode);
 
@@ -151,7 +168,10 @@ public sealed class TaskAccessTests : ApiTestBase
 
         for (var i = 0; i < 5; i++)
         {
-            using var form = TaskHelpers.Form(new() { ["ExpectedVersion"] = task.Version.ToString() }, $"file-{i}.txt");
+            using var form = TaskHelpers.Form(new()
+            {
+                ["ExpectedVersion"] = task.Version.ToString()
+            }, $"file-{i}.txt");
 
             var response = await users.Owner.PostAsync(route, form);
 
@@ -160,7 +180,10 @@ public sealed class TaskAccessTests : ApiTestBase
             task = (await response.Content.ReadFromJsonAsync<TaskResponse>())!;
         }
 
-        using var excess = TaskHelpers.Form(new() { ["ExpectedVersion"] = task.Version.ToString() }, "excess.txt");
+        using var excess = TaskHelpers.Form(new()
+        {
+            ["ExpectedVersion"] = task.Version.ToString()
+        }, "excess.txt");
 
         Assert.Equal(HttpStatusCode.BadRequest, (await users.Owner.PostAsync(route, excess)).StatusCode);
 

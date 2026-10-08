@@ -10,7 +10,7 @@ public sealed class TaskReadService(ITaskRepository tasks, IUserRepository users
 {
     public async Task<TaskView> GetAsync(Guid id, Actor actor, CancellationToken ct)
     {
-        var task = await tasks.FindAsync(id, actor, false, ct)
+        var task = await tasks.FindAsync(id, TaskScope.For(actor), false, ct)
             ?? throw new DomainException(ErrorKind.NotFound, "Tarefa não encontrada.");
 
         return await ViewAsync(task, ct);
@@ -23,7 +23,7 @@ public sealed class TaskReadService(ITaskRepository tasks, IUserRepository users
             throw new DomainException(ErrorKind.Invalid, "Paginação ou status inválido.");
         }
 
-        var result = await tasks.ListAsync(actor, status, page, pageSize, ct);
+        var result = await tasks.ListAsync(TaskScope.For(actor), status, page, pageSize, ct);
 
         var items = new List<TaskView>();
 

@@ -24,9 +24,9 @@ public interface ISessionRepository
 
 public interface ITaskRepository
 {
-    Task<TaskItem?> FindAsync(Guid id, Actor actor, bool forUpdate, CancellationToken ct);
+    Task<TaskItem?> FindAsync(Guid id, TaskScope scope, bool forUpdate, CancellationToken ct);
 
-    Task<TaskPage> ListAsync(Actor actor, string? status, int page, int pageSize, CancellationToken ct);
+    Task<TaskPage> ListAsync(TaskScope scope, string? status, int page, int pageSize, CancellationToken ct);
 
     void Add(TaskItem task);
 
@@ -54,10 +54,13 @@ public interface ITokenIssuer
 
 public interface IClock
 {
-    DateTimeOffset UtcNow { get; }
+    DateTimeOffset UtcNow
+    {
+        get;
+    }
 }
 
-public sealed record SignedToken(string AccessToken, DateTimeOffset ExpiresAt, Guid SessionId);
+public sealed record SignedToken(string AccessToken, DateTimeOffset ExpiresAt, Guid SessionId, string Role);
 
 public sealed record TaskPage(IReadOnlyList<TaskItem> Items, int Total, int Page, int PageSize);
 

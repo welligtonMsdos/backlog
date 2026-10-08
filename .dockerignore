@@ -8,3 +8,9 @@
 artifacts
 .codex-tmp
 TestResults
+
+README.md
+specs/
+tools/
+.config/
+*.pdf

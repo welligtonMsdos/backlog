@@ -16,9 +16,15 @@ internal sealed class MemoryStore : IUserRepository, ISessionRepository, ITaskRe
 
     public List<TaskItem> Tasks { get; } = [];
 
-    public int Saves { get; private set; }
+    public int Saves
+    {
+        get; private set;
+    }
 
-    public bool Locked { get; private set; }
+    public bool Locked
+    {
+        get; private set;
+    }
 
     public Task<User?> ByIdAsync(Guid id, CancellationToken ct)
     {
@@ -55,16 +61,16 @@ internal sealed class MemoryStore : IUserRepository, ISessionRepository, ITaskRe
         Sessions.Add(session);
     }
 
-    public Task<TaskItem?> FindAsync(Guid id, Actor actor, bool forUpdate, CancellationToken ct)
+    public Task<TaskItem?> FindAsync(Guid id, TaskScope scope, bool forUpdate, CancellationToken ct)
     {
         Locked = forUpdate;
 
-        return Task.FromResult(Tasks.SingleOrDefault(task => task.Id == id && task.CanRead(actor)));
+        return Task.FromResult(Tasks.SingleOrDefault(task => task.Id == id && scope.Contains(task)));
     }
 
-    public Task<TaskPage> ListAsync(Actor actor, string? status, int page, int pageSize, CancellationToken ct)
+    public Task<TaskPage> ListAsync(TaskScope scope, string? status, int page, int pageSize, CancellationToken ct)
     {
-        var visible = Tasks.Where(task => task.CanRead(actor) && (status is null || task.Status == status)).ToArray();
+        var visible = Tasks.Where(task => scope.Contains(task) && (status is null || task.Status == status)).ToArray();
 
         return Task.FromResult(new TaskPage(visible.Skip((page - 1) * pageSize).Take(pageSize).ToArray(), visible.Length, page, pageSize));
     }

@@ -6,7 +6,10 @@ namespace Backlog.Api;
 
 public class MaterialsRequest
 {
-    public string? Note { get; set; }
+    public string? Note
+    {
+        get; set;
+    }
 
     public IFormFileCollection Files { get; set; } = new FormFileCollection();
 }
@@ -17,12 +20,18 @@ public sealed class CreateTaskRequest : MaterialsRequest
 
     public string Description { get; set; } = "";
 
-    public Guid TargetDeveloperId { get; set; }
+    public Guid TargetDeveloperId
+    {
+        get; set;
+    }
 }
 
 public class TransitionRequest : MaterialsRequest
 {
-    public long ExpectedVersion { get; set; }
+    public long ExpectedVersion
+    {
+        get; set;
+    }
 }
 
 public sealed class ReviewRequest : TransitionRequest

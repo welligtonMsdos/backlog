@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi;
 using Scalar.AspNetCore;
@@ -48,16 +48,30 @@ public sealed class ApiDocumentTransformer : IOpenApiDocumentTransformer
 
 public sealed class ApiOperationTransformer : IOpenApiOperationTransformer
 {
-    public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken ct)
+    public async Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken ct)
     {
+        var error = await context.GetOrCreateSchemaAsync(typeof(ProblemDetails), null, ct);
+
+        context.Document!.AddComponent("ProblemDetails", error);
+
         operation.Responses ??= new OpenApiResponses();
 
         foreach (var (code, description) in new[] { ("400", "Campos inválidos."), ("401", "Token ou sessão inválidos."), ("403", "Sem permissão."), ("404", "Recurso inexistente ou não visível."), ("409", "Versão ou status desatualizados."), ("413", "Arquivo ou requisição excede o limite."), ("503", "Banco indisponível; reinicie a API após recuperar PostgreSQL.") })
         {
-            operation.Responses.TryAdd(code, new OpenApiResponse { Description = description });
+            operation.Responses[code] = new OpenApiResponse
+            {
+                Description = description,
+                Content = new Dictionary<string, OpenApiMediaType>
+                {
+                    ["application/problem+json"] = new OpenApiMediaType
+                    {
+                        Schema = new OpenApiSchemaReference("ProblemDetails", context.Document)
+                    }
+                }
+            };
         }
 
-        return Task.CompletedTask;
+        operation.Summary = $"{context.Description.HttpMethod} /{context.Description.RelativePath}";
     }
 }
 

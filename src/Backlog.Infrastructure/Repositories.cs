@@ -49,25 +49,21 @@ public sealed class SessionRepository(BacklogDbContext db) : ISessionRepository
 
 public sealed class TaskRepository(BacklogDbContext db) : ITaskRepository
 {
-    private IQueryable<TaskItem> Visible(Actor actor)
+    private IQueryable<TaskItem> Visible(TaskScope scope)
     {
-        return actor.Role switch
-        {
-            Roles.Manager => db.Tasks,
-            Roles.Treasury => db.Tasks.Where(x => x.CreatorId == actor.Id),
-            Roles.Developer => db.Tasks.Where(x => x.TargetDeveloperId == actor.Id || x.CurrentDeveloperId == actor.Id),
-            _ => db.Tasks.Where(x => false)
-        };
+        return scope.All ? db.Tasks
+            : scope.CreatorId.HasValue ? db.Tasks.Where(task => task.CreatorId == scope.CreatorId)
+            : scope.DeveloperId.HasValue ? db.Tasks.Where(task => task.TargetDeveloperId == scope.DeveloperId || task.CurrentDeveloperId == scope.DeveloperId)
+            : db.Tasks.Where(task => false);
     }
-
-    public async Task<TaskItem?> FindAsync(Guid id, Actor actor, bool forUpdate, CancellationToken ct)
+    public async Task<TaskItem?> FindAsync(Guid id, TaskScope scope, bool forUpdate, CancellationToken ct)
     {
         if (forUpdate)
         {
             await db.Database.ExecuteSqlInterpolatedAsync($"SELECT 1 FROM tasks WHERE id = {id} FOR UPDATE", ct);
         }
 
-        var task = await Visible(actor).SingleOrDefaultAsync(x => x.Id == id, ct);
+        var task = await Visible(scope).SingleOrDefaultAsync(x => x.Id == id, ct);
 
         if (task is null)
         {
@@ -86,9 +82,9 @@ public sealed class TaskRepository(BacklogDbContext db) : ITaskRepository
         return task;
     }
 
-    public async Task<TaskPage> ListAsync(Actor actor, string? status, int page, int pageSize, CancellationToken ct)
+    public async Task<TaskPage> ListAsync(TaskScope scope, string? status, int page, int pageSize, CancellationToken ct)
     {
-        var query = Visible(actor).AsNoTracking();
+        var query = Visible(scope).AsNoTracking();
 
         if (status is not null)
         {

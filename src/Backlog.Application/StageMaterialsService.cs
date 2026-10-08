@@ -8,7 +8,7 @@ public sealed class StageMaterialsService(ITaskRepository tasks, IUnitOfWork uni
     {
         return unit.ExecuteAsync(async () =>
         {
-            var task = await tasks.FindAsync(id, actor, true, ct)
+            var task = await tasks.FindAsync(id, TaskScope.For(actor), true, ct)
                 ?? throw new DomainException(ErrorKind.NotFound, "Tarefa não encontrada.");
 
             task.CheckVersion(version);
@@ -35,7 +35,7 @@ public sealed class StageMaterialsService(ITaskRepository tasks, IUnitOfWork uni
 
     public async Task<StageAttachment> DownloadAsync(Guid id, Guid attachmentId, Actor actor, CancellationToken ct)
     {
-        var task = await tasks.FindAsync(id, actor, false, ct)
+        var task = await tasks.FindAsync(id, TaskScope.For(actor), false, ct)
             ?? throw new DomainException(ErrorKind.NotFound, "Tarefa não encontrada.");
 
         return task.Stages.SelectMany(stage => stage.Attachments).SingleOrDefault(file => file.Id == attachmentId)

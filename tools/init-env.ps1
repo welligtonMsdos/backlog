@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 
 $path = Join-Path (Split-Path $PSScriptRoot -Parent) '.env'
 
@@ -20,7 +20,9 @@ $lines = @(
     'BOOTSTRAP_NAME=Gestor inicial',
     'BOOTSTRAP_EMAIL=gestor@backlog.local',
     "BOOTSTRAP_PASSWORD=$(New-Secret)",
-    'API_PORT=8080'
+    'API_PORT=8080',
+    'DOCUMENTATION_ENABLED=true',
+    'JWT_ACCESS_TOKEN_MINUTES=15'
 )
 
 [System.IO.File]::WriteAllLines($path, $lines, [System.Text.UTF8Encoding]::new($false))

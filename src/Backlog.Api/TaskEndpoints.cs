@@ -14,7 +14,7 @@ public static class TaskEndpoints
             var task = await create.CreateAsync(actor, request.Title, request.Description, request.TargetDeveloperId, await UploadReader.ReadAsync(request, ct), ct);
 
             return Results.Created($"/tasks/{task.Id}", TaskResponse.From(await read.GetAsync(task.Id, actor, ct), actor));
-        }).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateTaskRequest>>();
+        }).Produces<TaskResponse>(StatusCodes.Status201Created).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateTaskRequest>>();
 
         app.MapGet("/tasks", async ([AsParameters] TaskQuery query, HttpContext context, TaskReadService read, CancellationToken ct) =>
         {
@@ -22,14 +22,14 @@ public static class TaskEndpoints
 
             var page = await read.ListAsync(actor, query.Status, query.Page, query.PageSize, ct);
 
-            return Results.Ok(new { Items = page.Items.Select(view => TaskResponse.From(view, actor)), page.Total, page.Page, page.PageSize });
-        }).AddEndpointFilter<ValidationFilter<TaskQuery>>();
+            return Results.Ok(new TaskPageResponse(page.Items.Select(view => TaskResponse.From(view, actor)).ToArray(), page.Total, page.Page, page.PageSize));
+        }).Produces<TaskPageResponse>().AddEndpointFilter<ValidationFilter<TaskQuery>>();
 
         app.MapGet("/tasks/{id:guid}", async (Guid id, HttpContext context, TaskReadService read, CancellationToken ct) =>
         {
             var actor = context.User.Actor();
 
             return Results.Ok(TaskResponse.From(await read.GetAsync(id, actor, ct), actor));
-        });
+        }).Produces<TaskResponse>();
     }
 }

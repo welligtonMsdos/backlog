@@ -2,7 +2,9 @@ namespace Backlog.Domain;
 
 public sealed class StageEntry
 {
-    private StageEntry() { }
+    private StageEntry()
+    {
+    }
 
     public StageEntry(Guid taskId, int sequence, string status, Guid author, DateTimeOffset now)
     {
@@ -19,21 +21,42 @@ public sealed class StageEntry
         StartedByUserId = author;
     }
 
-    public Guid Id { get; private set; }
+    public Guid Id
+    {
+        get; private set;
+    }
 
-    public Guid TaskId { get; private set; }
+    public Guid TaskId
+    {
+        get; private set;
+    }
 
-    public int Sequence { get; private set; }
+    public int Sequence
+    {
+        get; private set;
+    }
 
     public string Status { get; private set; } = "";
 
-    public DateTimeOffset StartedAt { get; private set; }
+    public DateTimeOffset StartedAt
+    {
+        get; private set;
+    }
 
-    public DateTimeOffset? EndedAt { get; private set; }
+    public DateTimeOffset? EndedAt
+    {
+        get; private set;
+    }
 
-    public Guid StartedByUserId { get; private set; }
+    public Guid StartedByUserId
+    {
+        get; private set;
+    }
 
-    public Guid? EndedByUserId { get; private set; }
+    public Guid? EndedByUserId
+    {
+        get; private set;
+    }
 
     public List<StageNote> Notes { get; private set; } = [];
 
@@ -72,7 +95,9 @@ public sealed class StageEntry
 
 public sealed class StageNote
 {
-    private StageNote() { }
+    private StageNote()
+    {
+    }
 
     public StageNote(Guid stageEntryId, string text, Guid author, DateTimeOffset now)
     {
@@ -87,20 +112,34 @@ public sealed class StageNote
         CreatedAt = now;
     }
 
-    public Guid Id { get; private set; }
+    public Guid Id
+    {
+        get; private set;
+    }
 
-    public Guid StageEntryId { get; private set; }
+    public Guid StageEntryId
+    {
+        get; private set;
+    }
 
     public string Text { get; private set; } = "";
 
-    public Guid AuthorUserId { get; private set; }
+    public Guid AuthorUserId
+    {
+        get; private set;
+    }
 
-    public DateTimeOffset CreatedAt { get; private set; }
+    public DateTimeOffset CreatedAt
+    {
+        get; private set;
+    }
 }
 
 public sealed class StageAttachment
 {
-    private StageAttachment() { }
+    private StageAttachment()
+    {
+    }
 
     public StageAttachment(Guid stageEntryId, Guid author, string name, string contentType, byte[] content, DateTimeOffset now)
     {
@@ -121,19 +160,34 @@ public sealed class StageAttachment
         CreatedAt = now;
     }
 
-    public Guid Id { get; private set; }
+    public Guid Id
+    {
+        get; private set;
+    }
 
-    public Guid StageEntryId { get; private set; }
+    public Guid StageEntryId
+    {
+        get; private set;
+    }
 
-    public Guid UploadedByUserId { get; private set; }
+    public Guid UploadedByUserId
+    {
+        get; private set;
+    }
 
     public string OriginalName { get; private set; } = "";
 
     public string ContentType { get; private set; } = "";
 
-    public long SizeBytes { get; private set; }
+    public long SizeBytes
+    {
+        get; private set;
+    }
 
     public byte[] Content { get; private set; } = [];
 
-    public DateTimeOffset CreatedAt { get; private set; }
+    public DateTimeOffset CreatedAt
+    {
+        get; private set;
+    }
 }

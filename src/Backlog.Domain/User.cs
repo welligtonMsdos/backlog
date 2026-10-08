@@ -2,7 +2,9 @@ namespace Backlog.Domain;
 
 public sealed class User
 {
-    private User() { }
+    private User()
+    {
+    }
 
     public User(string name, string email, string passwordHash, string role, DateTimeOffset now, bool isActive = true)
     {
@@ -28,7 +30,10 @@ public sealed class User
         UpdatedAt = now;
     }
 
-    public Guid Id { get; private set; }
+    public Guid Id
+    {
+        get; private set;
+    }
 
     public string Name { get; private set; } = "";
 
@@ -38,16 +43,27 @@ public sealed class User
 
     public string Role { get; private set; } = "";
 
-    public bool IsActive { get; private set; }
+    public bool IsActive
+    {
+        get; private set;
+    }
 
-    public DateTimeOffset CreatedAt { get; private set; }
+    public DateTimeOffset CreatedAt
+    {
+        get; private set;
+    }
 
-    public DateTimeOffset UpdatedAt { get; private set; }
+    public DateTimeOffset UpdatedAt
+    {
+        get; private set;
+    }
 }
 
 public sealed class AuthSession
 {
-    private AuthSession() { }
+    private AuthSession()
+    {
+    }
 
     public AuthSession(Guid id, Guid userId, DateTimeOffset now, DateTimeOffset expiresAt)
     {
@@ -60,15 +76,30 @@ public sealed class AuthSession
         ExpiresAt = expiresAt;
     }
 
-    public Guid Id { get; private set; }
+    public Guid Id
+    {
+        get; private set;
+    }
 
-    public Guid UserId { get; private set; }
+    public Guid UserId
+    {
+        get; private set;
+    }
 
-    public DateTimeOffset CreatedAt { get; private set; }
+    public DateTimeOffset CreatedAt
+    {
+        get; private set;
+    }
 
-    public DateTimeOffset ExpiresAt { get; private set; }
+    public DateTimeOffset ExpiresAt
+    {
+        get; private set;
+    }
 
-    public DateTimeOffset? RevokedAt { get; private set; }
+    public DateTimeOffset? RevokedAt
+    {
+        get; private set;
+    }
 
     public void Revoke(DateTimeOffset now)
     {

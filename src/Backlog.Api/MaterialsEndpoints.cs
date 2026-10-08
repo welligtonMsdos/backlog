@@ -15,7 +15,7 @@ public static class MaterialsEndpoints
             await service.AddAsync(id, stageId, actor, request.ExpectedVersion, new TaskMaterials(request.Text, []), ct);
 
             return Results.Ok(TaskResponse.From(await read.GetAsync(id, actor, ct), actor));
-        }).AddEndpointFilter<ValidationFilter<NoteRequest>>();
+        }).Produces<TaskResponse>().AddEndpointFilter<ValidationFilter<NoteRequest>>();
 
         app.MapPost("/tasks/{id:guid}/stages/{stageId:guid}/attachments", async (Guid id, Guid stageId, [FromForm] TransitionRequest request, HttpContext context, StageMaterialsService service, TaskReadService read, CancellationToken ct) =>
         {
@@ -29,7 +29,7 @@ public static class MaterialsEndpoints
             await service.AddAsync(id, stageId, actor, request.ExpectedVersion, await UploadReader.ReadAsync(request, ct), ct);
 
             return Results.Ok(TaskResponse.From(await read.GetAsync(id, actor, ct), actor));
-        }).DisableAntiforgery().AddEndpointFilter<ValidationFilter<TransitionRequest>>();
+        }).Produces<TaskResponse>().DisableAntiforgery().AddEndpointFilter<ValidationFilter<TransitionRequest>>();
 
         app.MapGet("/tasks/{id:guid}/attachments/{attachmentId:guid}", async (Guid id, Guid attachmentId, HttpContext context, StageMaterialsService service, CancellationToken ct) =>
         {
@@ -38,6 +38,6 @@ public static class MaterialsEndpoints
             context.Response.Headers.XContentTypeOptions = "nosniff";
 
             return Results.File(file.Content, file.ContentType, file.OriginalName);
-        });
+        }).Produces(StatusCodes.Status200OK, contentType: "application/octet-stream");
     }
 }

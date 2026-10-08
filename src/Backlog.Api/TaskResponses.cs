@@ -3,6 +3,8 @@ using Backlog.Domain;
 
 namespace Backlog.Api;
 
+public sealed record TaskPageResponse(IReadOnlyList<TaskResponse> Items, int Total, int Page, int PageSize);
+
 public sealed record PersonResponse(Guid Id, string Name);
 
 public sealed record NoteResponse(Guid Id, string Text, Guid AuthorUserId, DateTimeOffset CreatedAt);

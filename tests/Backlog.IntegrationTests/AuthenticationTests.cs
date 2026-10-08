@@ -123,6 +123,8 @@ public sealed class AuthenticationTests : ApiTestBase
     [Fact]
     public async Task BootstrapIsIdempotentSerializedAndDoesNotChangePassword()
     {
+        await ApiHarness.ExecuteAsync(Api.ConnectionString, "DELETE FROM users");
+
         using var first = Api.Factory.Services.CreateScope();
 
         using var second = Api.Factory.Services.CreateScope();
